@@ -14,19 +14,19 @@ import io.felipepoliveira.opensource.apprelay.app.models.Application;
 
 @Repository
 public class ApplicationSerde extends AbstractSerde<String, Application> implements ApplicationDB {
-	
+
 	/**
 	 * Database used in the SERDE database implementation
 	 */
 	private Map<String, Application> database;
-	
+
 	public static final String FILE_PATH = "../db/apps.db";
-	
+
 	@PostConstruct
 	private void loadDatabase() throws IOException, ClassNotFoundException {
 		this.database = this.desserializeFromFileOrEmpty(FILE_PATH);
 	}
-	
+
 	private String normalizeKey(String appName) {
 		Assert.is(appName != null, "Application name can not be null");
 		return appName.toLowerCase();
@@ -35,7 +35,7 @@ public class ApplicationSerde extends AbstractSerde<String, Application> impleme
 	@Override
 	public void insertOrReplace(Application app) {
 		var normalizedKey = normalizeKey(app.getName());
-		
+
 		// Include in the database and serialize it
 		this.database.put(normalizedKey, app);
 		try {
@@ -54,6 +54,29 @@ public class ApplicationSerde extends AbstractSerde<String, Application> impleme
 	@Override
 	public Collection<Application> fetchAll() {
 		return this.database.values();
+	}
+
+	@Override
+	public void remove(Application app) {
+		var normalizedKey = normalizeKey(app.getName());
+		this.database.remove(normalizedKey);
+
+		try {
+			this.serializeToFile(this.database, FILE_PATH);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public void removeAll() {
+		this.database.clear();
+		
+		try {
+			this.serializeToFile(this.database, FILE_PATH);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

@@ -26,5 +26,16 @@ public interface ApplicationDB {
 	 * @return
 	 */
 	Collection<Application> fetchAll();
+	
+	/**
+	 * Remove the application from the database
+	 * @param app
+	 */
+	void remove(Application app);
+	
+	/**
+	 * Remove all applications from the database
+	 */
+	void removeAll();
 
 }

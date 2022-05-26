@@ -2,10 +2,10 @@ package io.felipepoliveira.opensource.apprelay;
 
 import java.util.Scanner;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
+import org.springframework.context.annotation.Configuration;
 
 import io.felipepoliveira.opensource.apprelay.cli.CommandsMapper;
 import io.felipepoliveira.opensource.apprelay.cli.InputCommandArguments;
@@ -16,7 +16,7 @@ import io.felipepoliveira.opensource.apprelay.cli.cmd.Command;
  * @author Felipe Oliveira
  *
  */
-@SpringBootApplication
+@Configuration
 @ComponentScans(
 		{
 			@ComponentScan("io.felipepoliveira.opensource.apprelay.app"),
@@ -60,7 +60,12 @@ public class AppRelayLauncher {
 				// read the user input only if the application do not receive any arguments
 				if (args.length == 0) {
 					System.out.print("ar:> ");
-					var userInput = sc.nextLine();
+					var userInput = sc.nextLine().trim();
+					
+					// ignore command if user send an empty string
+					if (userInput.isEmpty()) {
+						continue;
+					}
 					cmdInputArgs = new InputCommandArguments(userInput);
 				}
 				else {
