@@ -1,12 +1,14 @@
-package io.felipepoliveira.opensource.apprelay.cli;
+package io.felipepoliveira.opensource.apprelay;
 
 import java.util.Scanner;
 
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
-import org.springframework.context.annotation.Configuration;
 
+import io.felipepoliveira.opensource.apprelay.cli.CommandsMapper;
+import io.felipepoliveira.opensource.apprelay.cli.InputCommandArguments;
 import io.felipepoliveira.opensource.apprelay.cli.cmd.Command;
 
 /**
@@ -14,20 +16,20 @@ import io.felipepoliveira.opensource.apprelay.cli.cmd.Command;
  * @author Felipe Oliveira
  *
  */
-@Configuration
+@SpringBootApplication
 @ComponentScans(
 		{
 			@ComponentScan("io.felipepoliveira.opensource.apprelay.app"),
 			@ComponentScan("io.felipepoliveira.opensource.apprelay.cli"),
 		}
 )
-public class CommandLineInterfaceLauncher {
+public class AppRelayLauncher {
 	
 	private static AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
 	
 	private static void runDependencyInjection() {
 		// startup spring dependencies
-		ctx.register(CommandLineInterfaceLauncher.class);
+		ctx.register(AppRelayLauncher.class);
 		ctx.refresh();
 		
 		// map all registered commands

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScans;
 })
 public class RestfulServerLauncher {
 
-	public static void main(String[] args) {
+	public static void launchServer(String[] args) {
 		SpringApplication.run(RestfulServerLauncher.class, args);
 	}
 

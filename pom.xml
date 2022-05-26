@@ -7,9 +7,9 @@
 		<version>2.6.7</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.zaninte.opensource</groupId>
+	<groupId>io.felipepoliveira.opensource</groupId>
 	<artifactId>apprelay</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<name>AppRelay</name>
 	<description>An Serverless Host Service to Integrate Applications</description>
 	<properties>
@@ -21,7 +21,6 @@
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
-			<version>2.0.1.Final</version>
 		</dependency>
 
 
@@ -29,7 +28,6 @@
 		<dependency>
 			<groupId>org.yaml</groupId>
 			<artifactId>snakeyaml</artifactId>
-			<version>1.30</version>
 		</dependency>
 
 		<dependency>

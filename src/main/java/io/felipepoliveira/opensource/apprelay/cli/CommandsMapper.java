@@ -39,7 +39,7 @@ public final class CommandsMapper {
 		// Assert data
 		Assert.is(cmd != null, "Command can not be null");
 		Assert.is(	cmd.getName() != null &&
-					cmd.getName().matches("^\\w+$"), 
+					cmd.getName().matches("^(\\w|-)+$"), 
 					String.format(
 							"Invalid command %s. A command name can only contain letters, numbers and underscore [a-zA-Z0-9_]", 
 							cmd.getName()
