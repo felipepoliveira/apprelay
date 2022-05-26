@@ -1,5 +1,7 @@
 package io.felipepoliveira.opensource.apprelay.app.services;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,14 @@ public class ApplicationService {
 		}
 		
 		return app;
+	}
+	
+	/**
+	 * Fetch all registered {@link Application} used in the AppRelay instance
+	 * @return
+	 */
+	public Collection<Application> findAll() {
+		return applicationDB.fetchAll();
 	}
 
 	/**
