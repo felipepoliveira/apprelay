@@ -3,6 +3,8 @@ package io.felipepoliveira.opensource.apprelay.utils;
 import java.io.File;
 import java.util.Optional;
 
+import io.felipepoliveira.opensource.apprelay.Debug;
+
 public final class FileUtils {
 	
 	/**
@@ -29,7 +31,12 @@ public final class FileUtils {
 	 * @return
 	 */
 	public static File getFileRelativeToJarLocation(String filepath) {
-		return new File(JarUtils.getJarExecutionDirectory().getAbsolutePath() + "\\" +  filepath);
+		var relativeFile = new File(JarUtils.getJarExecutionDirectory().getAbsolutePath() + "\\" +  filepath);
+		Debug.errPrintln("getFileRelativeToJarLocation {");
+		Debug.errPrintln("	Given relative path: " + filepath);
+		Debug.errPrintln("	Absolute path: " + relativeFile.getAbsolutePath());
+		Debug.errPrintln("}");
+		return relativeFile;
 	}
 
 }
