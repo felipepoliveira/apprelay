@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>io.felipepoliveira.opensource</groupId>
 	<artifactId>apprelay</artifactId>
-	<version>0.1.3</version>
+	<version>0.1.4</version>
 	<name>AppRelay</name>
 	<description>An Serverless Host Service to Integrate Applications</description>
 	<properties>

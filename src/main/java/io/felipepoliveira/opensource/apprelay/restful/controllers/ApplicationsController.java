@@ -1,5 +1,7 @@
 package io.felipepoliveira.opensource.apprelay.restful.controllers;
 
+import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.felipepoliveira.opensource.apprelay.app.excp.BindingResultException;
 import io.felipepoliveira.opensource.apprelay.app.excp.NotFoundException;
 import io.felipepoliveira.opensource.apprelay.app.services.ApplicationService;
+import io.felipepoliveira.opensource.apprelay.restful.dto.ApplicationSummaryDataDTO;
 import io.felipepoliveira.opensource.apprelay.restful.dto.ExecuteApplicationDTO;
 
 @RestController
@@ -48,7 +51,12 @@ public class ApplicationsController {
 	 */
 	@GetMapping
 	public ResponseEntity<?> listRegisteredApps() {
-		return ResponseEntity.ok(applicationService.findAll());
+		return ResponseEntity.ok(
+				applicationService.findAll()
+				.stream()
+					.map(a -> new ApplicationSummaryDataDTO(a))
+					.collect(Collectors.toList())
+				);
 	}
 
 }
