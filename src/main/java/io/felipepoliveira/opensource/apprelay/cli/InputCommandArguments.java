@@ -67,13 +67,13 @@ public class InputCommandArguments {
 		
 		// Validate the given data
 		Assert.is(commandArguments != null, "Null command arguments given");
-		Assert.is(commandArguments.length > 0, "No  command arguments was given");
 		
 		// Initialize all classes collections
 		this.flags = new HashSet<String>();
 		this.parameters = new HashMap<String, String>();
 		this.arguments = new ArrayList<String>(commandArguments.length);
 		this.rawArguments = commandArguments;
+		this.commandName = "";
 	
 		// Store the current scope
 		ArgumentsScopes currentScope = null;
