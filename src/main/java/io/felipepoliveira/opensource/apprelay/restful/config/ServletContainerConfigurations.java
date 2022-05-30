@@ -13,6 +13,7 @@ import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Configuration;
 
 import io.felipepoliveira.opensource.apprelay.AppRelayLauncher;
+import io.felipepoliveira.opensource.apprelay.utils.FileUtils;
 
 @Configuration
 public class ServletContainerConfigurations implements WebServerFactoryCustomizer<ConfigurableWebServerFactory>{
@@ -24,7 +25,7 @@ public class ServletContainerConfigurations implements WebServerFactoryCustomize
 		case DEBUG:
 			return ServletContainerConfigurations.class.getResourceAsStream("/debug/conf/server.properties");
 		case PRODUCTION:
-			return new FileInputStream("../conf/server.properties");
+			return new FileInputStream(FileUtils.getFileRelativeToJarLocation("../conf/server.properties"));
 		default:
 			throw new IllegalArgumentException("Unknown application state: " + AppRelayLauncher.getContext());
 		}

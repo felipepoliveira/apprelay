@@ -22,5 +22,14 @@ public final class FileUtils {
 		
 		return Optional.empty();
 	}
+	
+	/**
+	 * Return an {@link File} file or directory relative to the classpath execution directory
+	 * @param filepath - Should be a relative filepath, like "/adir", "./adir" or "../adir";
+	 * @return
+	 */
+	public static File getFileRelativeToJarLocation(String filepath) {
+		return new File(JarUtils.getJarExecutionDirectory().getAbsolutePath() + "\\" +  filepath);
+	}
 
 }

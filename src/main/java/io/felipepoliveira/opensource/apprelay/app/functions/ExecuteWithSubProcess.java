@@ -83,6 +83,7 @@ public class ExecuteWithSubProcess extends FunctionExecutor implements Serializa
 		try {
 			
 			// start and wait for the process to finish
+			System.out.println(String.format("--[START] Executing:%s", String.join(" ", processArgs)));
 			var process = processBuilder.start();
 			if (getTimeout() > 0) {
 				process.waitFor(this.getTimeout(), TimeUnit.MILLISECONDS);
@@ -92,7 +93,6 @@ public class ExecuteWithSubProcess extends FunctionExecutor implements Serializa
 			}
 			
 			// read the output from the application
-			System.out.println(String.format("--[START] Executing:%s", String.join(" ", processArgs)));
 			byte[] inputStream = process.getInputStream().readAllBytes();
 			var inputString = new String(inputStream, StandardCharsets.UTF_8);
 			System.out.print(inputString);

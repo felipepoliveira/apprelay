@@ -9,11 +9,13 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.felipepoliveira.opensource.apprelay.utils.FileUtils;
+
 public abstract class AbstractSerde<K, T> {
 	
 	@SuppressWarnings("unchecked")
 	protected Map<K, T> desserializeFromFileOrEmpty(String filePath) throws IOException, ClassNotFoundException {
-		var databaseFile = new File("../db/apps.db");
+		var databaseFile = FileUtils.getFileRelativeToJarLocation(filePath);
 		
 		// if the database file does not exists starts with an empty database
 		if (!databaseFile.exists()) {
@@ -33,7 +35,7 @@ public abstract class AbstractSerde<K, T> {
 	}
 	
 	protected void serializeToFile(Map<K, T> database, String filePath) throws IOException {
-		serializeToFile(database, new File(filePath));
+		serializeToFile(database, FileUtils.getFileRelativeToJarLocation(filePath));
 	}
 	
 	
