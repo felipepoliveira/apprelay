@@ -27,6 +27,19 @@ public class AppRelayLauncher {
 	
 	private static AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
 	
+	/**
+	 * Store the application context
+	 */
+	private static ApplicationContexts context = ApplicationContexts.PRODUCTION;
+	
+	/**
+	 * Return the current state of the application context
+	 * @return
+	 */
+	public static ApplicationContexts getContext() {
+		return context;
+	}
+	
 	private static void runDependencyInjection() {
 		// startup spring dependencies
 		ctx.register(AppRelayLauncher.class);
@@ -51,14 +64,26 @@ public class AppRelayLauncher {
 		// Marks the end of the application execution
 		boolean receiveInputEnabled = true;
 		
+		// read the input arguments from main method
+		InputCommandArguments cmdInputArgs = new InputCommandArguments(args);;
+		
+		/*
+		 *To let the application know that it is in DEBUG mode it checks if the --debug flag 
+		 *was passed in the application arguments or if '--debug' was passed as the first 
+		 *argument (making it commandName) 
+		 */
+		if (cmdInputArgs.hasFlag("debug") || cmdInputArgs.getCommandName().equals("--debug")) {
+			System.err.println("Application running on DEBUG mode");
+			context = ApplicationContexts.DEBUG;
+		}
+		
 		// Application main loop
 		while (receiveInputEnabled) {
 			
 			// Get the command input arguments
-			InputCommandArguments cmdInputArgs = null;
 			try {
-				// read the user input only if the application do not receive any arguments
-				if (args.length == 0) {
+				// Only starts the CLI loop if the there is not arguments on the application or is on DEBUG mode
+				if (args.length == 0 || context == ApplicationContexts.DEBUG) {
 					System.out.print("ar:> ");
 					var userInput = sc.nextLine().trim();
 					
@@ -69,7 +94,6 @@ public class AppRelayLauncher {
 					cmdInputArgs = new InputCommandArguments(userInput);
 				}
 				else {
-					cmdInputArgs = new InputCommandArguments(args);
 					receiveInputEnabled = false;
 				}
 				
