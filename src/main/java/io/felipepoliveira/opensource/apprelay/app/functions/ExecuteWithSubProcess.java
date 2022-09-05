@@ -84,18 +84,45 @@ public class ExecuteWithSubProcess extends FunctionExecutor implements Serializa
 			
 			// start and wait for the process to finish
 			System.out.println(String.format("--[START] Executing:%s", String.join(" ", processArgs)));
+			//String inputString = "";
+			StringBuilder processInputStreamText = new StringBuilder();
 			var process = processBuilder.start();
+			
+			// async thread to read process input stream
+			// this feature is important on tests on windows platform where the
+			// process was "never finishing" because it was outputing some data
+			// on the input stream and this client was never consuming it.
+			// 
+			// this thread will consume the entire input stream until the process finishes 
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					do {
+						try {
+							byte[] inputStream = process.getInputStream().readAllBytes();
+							processInputStreamText.append(new String(inputStream, StandardCharsets.UTF_8));
+						} catch (IOException e) {}
+					} while (process.isAlive());
+					
+				}
+			}).start();
+			
+			// Ask for the current thread to wait for the process to finish
 			if (getTimeout() > 0) {
 				process.waitFor(this.getTimeout(), TimeUnit.MILLISECONDS);
 			}
-			else {
+			else {				
 				process.waitFor();
+				
 			}
 			
-			// read the output from the application
+			// read possible remaining stream data
 			byte[] inputStream = process.getInputStream().readAllBytes();
-			var inputString = new String(inputStream, StandardCharsets.UTF_8);
-			System.out.print(inputString);
+			processInputStreamText.append(new String(inputStream, StandardCharsets.UTF_8));
+			
+			// read the output from the application
+			System.out.print(processInputStreamText.toString());
 			System.out.println(String.format("--[END] Executing:%s", String.join(" ", processArgs)));
 			
 			// get the exit code and return it as execution response
